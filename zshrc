@@ -16,11 +16,19 @@ export LS_COLORS='rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # Keybindings
 #------------------------------
 autoload -U edit-command-line
-zle -N edit-command-line
 bindkey -v
-bindkey -M vicmd 'v' edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd '^I' edit-command-line
 bindkey '^P' up-history
 bindkey '^N' down-history
+
+vi-append-x-clipboard() { LBUFFER="$LBUFFER $(xclip -o -selection clipboard)"; }
+zle -N vi-append-x-clipboard
+bindkey '^V' vi-append-x-clipboard
+#bindkey -a '^V' vi-append-x-clipboard
+# vi-yank-x-clipboard() { print -rn -- $CUTBUFFER | xclip -i -selection clipboard; }
+#zle -N vi-yank-x-clipboard
+#bindkey -a '^X' vi-yank-x-clipboard
 
 #------------------------------
 # Alias stuff
@@ -79,6 +87,17 @@ zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*'		force-list always
 zstyle ':completion:*:*:killall:*' menu yes select
 zstyle ':completion:*:killall:*'	 force-list always
+
+# Don't complete uninteresting users
+zstyle ':completion:*:*:*:users' ignored-patterns \
+        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
+        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
+        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
+        ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
+        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
+        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
+        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
+        usbmux uucp vcsa wwwrun xfs '_*'
 
 # -----------------------------------------------
 # Set up the prompt
