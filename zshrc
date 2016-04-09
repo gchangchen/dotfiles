@@ -138,7 +138,7 @@ if (( $+commands[git] )); then
   done
   unset p
 
-  _etup_current_branch_async () { # {{{3
+  _setup_current_branch_async () { # {{{3
     typeset -g _current_branch= vcs_info_fd=
     zmodload zsh/zselect 2>/dev/null
 
