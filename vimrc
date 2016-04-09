@@ -25,7 +25,7 @@ set guifont=AR\ PL\ UKai\ TW\ MBE\ 12
 
 set ttimeoutlen=50
 
-autocmd FileType c,cpp,sh set foldmethod=syntax
+autocmd FileType c,cpp set foldmethod=syntax
 
 if has("multi_byte")
     set encoding=utf-8
@@ -47,4 +47,3 @@ if(has("win32") && has("gui_running"))
     source $VIMRUNTIME/mswin.vim
     behave mswin
 endif
-
