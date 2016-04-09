@@ -30,6 +30,17 @@ bindkey '^V' vi-append-x-clipboard
 #zle -N vi-yank-x-clipboard
 #bindkey -a '^X' vi-yank-x-clipboard
 
+sudo-command-line() {
+    [[ -z $BUFFER ]] && zle up-history
+    if [[ $BUFFER == sudo\ * ]]; then
+        LBUFFER="${LBUFFER#sudo }"
+    else
+        LBUFFER="sudo $LBUFFER"
+    fi
+}
+zle -N sudo-command-line
+bindkey -a "K" sudo-command-line
+
 #------------------------------
 # Alias stuff
 #------------------------------
@@ -51,7 +62,6 @@ alias 8="cd -8"
 alias 9="cd -9"
 alias d="dirs -v | head -10"
 alias _="sudo"
-alias __="sudo !!"
 alias ls="ls --color"
 alias ll="ls --color -lh"
 alias grep="grep --color"
