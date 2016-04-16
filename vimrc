@@ -1,9 +1,8 @@
-set number
 set nocompatible
+set number
 filetype plugin indent on
 set history=1000
 syntax on
-"set autoindent
 set smartindent
 set noexpandtab
 set tabstop=4
@@ -26,6 +25,7 @@ set guifont=AR\ PL\ UKai\ TW\ MBE\ 12
 set ttimeoutlen=50
 
 autocmd FileType c,cpp set foldmethod=syntax
+autocmd FileType python set foldmethod=indent
 
 if has("multi_byte")
     set encoding=utf-8
