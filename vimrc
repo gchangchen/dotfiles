@@ -23,6 +23,7 @@ set nobomb
 set guifont=AR\ PL\ UKai\ TW\ MBE\ 12
 
 set ttimeoutlen=50
+cmap w!! w !sudo tee >/dev/null %
 
 autocmd FileType c,cpp set foldmethod=syntax
 autocmd FileType python set foldmethod=indent
