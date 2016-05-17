@@ -3,7 +3,7 @@ set number
 filetype plugin indent on
 set history=1000
 syntax on
-set smartindent
+"set smartindent
 set noexpandtab
 set tabstop=4
 set shiftwidth=4

@@ -12,6 +12,31 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
+-- {{{ volume handling
+volume_widget = wibox.widget.textbox()
+volume_widget:set_align("right")
+function update_volume(op)
+	local cmd = "amixer sget Master"
+	-- op = 2dB+  2dB- or toggle
+	if op then
+		cmd = "amixer sset Master " .. op
+	end
+	local fd = io.popen(cmd)
+	local status = fd:read("*all")
+	fd:close()
+	local volume
+	_, _, volume, status = string.find(status, "%[(%d+)%%%]%s%[.-%]%s%[(%l+)%]")
+	if status == "on" then
+		volume = volume .. "%"
+	else
+		volume = volume .. "M"
+	end
+	volume_widget:set_markup(volume)
+	--volume_widget:set_text(volume)
+end
+update_volume()
+-- }}}
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -44,7 +69,7 @@ beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 -- This is used later as the default terminal and editor to run.
 terminal = "xfce4-terminal"
 editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. " -e " .. editor
+-- editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -83,8 +108,8 @@ end
 -- Define a tag table which hold all screen tags.
 -- tags = {}
 tags = {
-	names  = { "Main", "WWW", "File", "Other" },
-	layouts = { layouts[2], layouts[10], layouts[10], layouts[2]},
+	names  = { "  Main  ", "  Other  " },
+	layouts = { layouts[2], layouts[10]},
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -96,14 +121,21 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "manual", terminal .. " -e 'man awesome'" },
+   -- { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "edit config", terminal .. " -e '" .. editor .. " " .. awesome.conffile .. "'"},
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "open terminal", terminal },
+                                    { "chromium", "chromium --proxy-server=127.0.0.1:8123"},
+									{ "evince", "evince" },
+									{ "gvim", "gvim" },
+									{ "thunar", "thunar" },
+									{ "reboot", "reboot" },
+									{ "poweroff", "poweroff" }
                                   }
                         })
 
@@ -199,6 +231,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+	right_layout:add(volume_widget)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -272,14 +305,16 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    -- awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
+    -- awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
 
-    awful.key({ modkey,           }, "Up",     function () awful.util.spawn("amixer -q sset Master 2dB+") end),
-    awful.key({ modkey,           }, "Down",     function () awful.util.spawn("amixer -q sset Master 2dB-") end),
+    awful.key({ modkey,           }, "Up",    function () update_volume("2dB+") end),
+    awful.key({ modkey,           }, "Down",  function () update_volume("2dB-") end),
+    awful.key({ modkey,           }, "space", function () update_volume("toggle") end),
+    awful.key({ modkey, "Shift"   }, "space", function () awful.util.spawn("xset s off -dpms") end),
     awful.key({ modkey,           }, "b",     function () awful.util.spawn("chromium --proxy-server=127.0.0.1:8123") end),
     awful.key({ modkey,           }, "e",     function () awful.util.spawn("thunar") end),
 
@@ -383,7 +418,8 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
-      properties = { floating = true } },
+      -- properties = { floating = true } },
+      properties = { tag = tags[1][2] } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
@@ -396,7 +432,7 @@ awful.rules.rules = {
     { rule = { class = "chromium" },
       properties = { tag = tags[1][2] } },
     { rule = { class = "Thunar" },
-      properties = { tag = tags[1][3] } },
+      properties = { tag = tags[1][2] } },
 }
 -- }}}
 
