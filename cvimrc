@@ -4,7 +4,7 @@ set noregexp
 set noautofocus
 set noinsertmappings
 
-let configpath = '~/.cvimrc'
+let configpath = '.cvimrc'
 set localconfig
 
 let barposition = "bottom"
