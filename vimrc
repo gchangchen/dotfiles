@@ -19,6 +19,7 @@ set nobackup
 set nowb
 set noswapfile
 set nobomb
+set autoread
 
 set guifont=AR\ PL\ UKai\ TW\ MBE\ 12
 

@@ -67,7 +67,9 @@ end
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xfce4-terminal"
+--terminal = "xfce4-terminal"
+--terminal = "st"
+terminal = "termite"
 editor = os.getenv("EDITOR") or "vim"
 -- editor_cmd = terminal .. " -e " .. editor
 
@@ -109,7 +111,7 @@ end
 -- tags = {}
 tags = {
 	names  = { "  Main  ", "  Other  " },
-	layouts = { layouts[2], layouts[10]},
+	layouts = { layouts[1], layouts[2]},
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -419,7 +421,7 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       -- properties = { floating = true } },
-      properties = { tag = tags[1][2] } },
+      properties = { tag = tags[1][1] } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
@@ -427,12 +429,14 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
+	--[[
     { rule = { class = "Xfce4-terminal" },
       properties = { tag = tags[1][1] } },
+	  --]]
     { rule = { class = "chromium" },
-      properties = { tag = tags[1][2] } },
+      properties = { tag = tags[1][1] } },
     { rule = { class = "Thunar" },
-      properties = { tag = tags[1][2] } },
+      properties = { tag = tags[1][1] } },
 }
 -- }}}
 
