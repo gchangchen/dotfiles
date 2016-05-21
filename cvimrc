@@ -1,5 +1,5 @@
 "cvimrc file
-set autoupdategist
+"set autoupdategist
 set noregexp
 set noautofocus
 set noinsertmappings
