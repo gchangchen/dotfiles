@@ -3,6 +3,6 @@ set autoupdategist
 set noregexp
 set noautofocus
 set noinsertmappings
-let previousmatchpattern=((?!last)(prev(ious)?|newer|back|«|less|<|‹|上一页| )+)
-let nextmatchpattern=((?!first)(next|older|more|>|›|»|forward|下一页| )+)
+let previousmatchpattern="((?!last)(prev(ious)?|newer|back|«|less|<|‹|上一页| )+)"
+let nextmatchpattern="((?!first)(next|older|more|>|›|»|forward|下一页| )+)"
 
