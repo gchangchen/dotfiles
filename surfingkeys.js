@@ -1,10 +1,8 @@
 unmap('<Ctrl-i>');
 unmap('u');
-unmap('g$');
-unmap('R');
-mapkey('R', '#4Reload the page without cache', 'RUNTIME("reloadTab", { nocache: true })');
-unmap('[[');
-unmap(']]');
+
+mapkey('gr', '#4Reload the page without cache', 'RUNTIME("reloadTab", { nocache: true })');
+
 mapkey('[[', '#1Click on the previous link on current page', function() {
 	var prevLinks = $('a').regex(/((<<|prev(ious)?|上一页)+)/i);
 	if (prevLinks.length) {
@@ -21,33 +19,36 @@ mapkey(']]', '#1Click on the next link on current page', function() {
 		walkPageUrl(1);
 	}
 });
-mapkey('gt', '#3Go one tab right', 'RUNTIME("nextTab")');
-map('p', 'cc');
 
-mapkey('g+', '#4Go path +1 in the URL', function() {
-	var pathname = location.pathname;
-	if (pathname.length > 1) {
-		var num_match = pathname.match(/\d+/);
-		if(num_match){
-			var num = parseInt(num_match);
-			if(num >= 0){
-				pathname = pathname.replace(num_match, num+1);
+addSearchAliasX('t', 'translates', 'https://translate.google.com/#en/zh-CN/', 's',
+		'https://clients1.google.com/complete/search?client=translate_separate_corpus&ds=translate&hl=en&requiredfields=tl%3Azh-CN&q=',
+		function(response){
+			var res = response.text.match(/\[\[.*\]\]/);
+			res = eval(res[0]);
+			for(var i=0; i<res.length; i++){
+				res[i]=res[i][0];
 			}
-		}
-	}
-	window.location.pathname = pathname;
-});
-mapkey('g_', '#4Go path -1 in the URL', function() {
-	var pathname = location.pathname;
-	if (pathname.length > 1) {
-		var num_match = pathname.match(/\d+/);
-		if(num_match){
-			var num = parseInt(num_match);
-			if(num > 0){
-				pathname = pathname.replace(num_match, num-1);
-			}
-		}
-	}
-	window.location.pathname = pathname;
-});
+			Omnibar.listWords(res);
+		});
+mapkey('ot', '#8Open Search with alias t', 'Normal.openOmnibar({type: "SearchEngine", extra: "t"})');
 
+mapkey('I', '#1Edit box with Vim', function() {
+	Hints.create("input:visible, textarea:visible", 
+			function (element, event) { 
+				if (element.localName === "textarea" || (element.localName === "input" &&
+							/^(?!button|checkbox|file|hidden|image|radio|reset|submit)/i.test(element.type)) || 
+						element.hasAttribute("contenteditable")) {
+					function onMessage(event){
+						element.value = event.data.message;
+						element.focus();
+						window.removeEventListener('message', onMessage, false);
+					}
+					window.addEventListener('message', onMessage, false);
+					function onEditorWrite(url){
+						var fn = new Function('data', "window.parent.postMessage({message: data},\"{0}\");".format(url));
+						return fn;
+					}
+					Normal.showEditor(element.value, onEditorWrite(window.location.href));
+				}
+			});
+});
