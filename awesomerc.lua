@@ -317,7 +317,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Down",  function () update_volume("2dB-") end),
     awful.key({ modkey,           }, "space", function () update_volume("toggle") end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.util.spawn("xset s off -dpms") end),
-    awful.key({ modkey,           }, "b",     function () awful.util.spawn("chromium --proxy-server=127.0.0.1:8123") end),
+    awful.key({ modkey,           }, "g",     function () awful.util.spawn("chromium --proxy-server=127.0.0.1:8123") end),
     awful.key({ modkey,           }, "e",     function () awful.util.spawn("thunar") end),
 
     -- Prompt

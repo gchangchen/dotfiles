@@ -27,7 +27,7 @@ set ttimeoutlen=50
 cmap w!! w !sudo tee >/dev/null %
 
 autocmd FileType c,cpp set foldmethod=syntax
-autocmd FileType python set foldmethod=indent
+autocmd FileType python,javascript,html set foldmethod=indent
 
 if has("multi_byte")
     set encoding=utf-8
