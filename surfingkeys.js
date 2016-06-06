@@ -32,7 +32,7 @@ addSearchAliasX('t', 'translates', 'https://translate.google.com/#en/zh-CN/', 's
 		});
 mapkey('ot', '#8Open Search with alias t', 'Normal.openOmnibar({type: "SearchEngine", extra: "t"})');
 
-mapkey('I', '#1Edit box with Vim', function() {
+mapkey('I', '#1Edit textarea with Vim', function() {
 	Hints.create("input:visible, textarea:visible", 
 			function (element, event) { 
 				if (element.localName === "textarea" || (element.localName === "input" &&
@@ -45,10 +45,25 @@ mapkey('I', '#1Edit box with Vim', function() {
 					}
 					window.addEventListener('message', onMessage, false);
 					function onEditorWrite(url){
-						var fn = new Function('data', "window.parent.postMessage({message: data},\"{0}\");".format(url));
-						return fn;
+						return new Function('data', "window.parent.postMessage({message: data},\"{0}\");".format(url));
 					}
 					Normal.showEditor(element.value, onEditorWrite(window.location.href));
 				}
 			});
 });
+
+mapkey('gQ', '#1QR for current URL', function(){
+	Normal.getContentFromClipboard(function(response) {
+		data = response.data ? response.data : window.location.href;
+		data = data.replace(/&/g, '%26');
+		data = data.replace(/\n/g, '%0A');
+		Normal.showPopup('<img src="http://qr.topscan.com/api.php?text=' + data + '"/>');
+	});
+});
+mapkey('gq', '#1QR for clipboard', function(){
+	data = window.location.href;
+	data = data.replace(/&/g, '%26');
+	data = data.replace(/\n/g, '%0A');
+	Normal.showPopup('<img src="http://qr.topscan.com/api.php?text=' + data + '"/>');
+});
+
