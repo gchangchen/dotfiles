@@ -52,7 +52,7 @@ mapkey('I', '#1Edit textarea with Vim', function() {
 			});
 });
 
-mapkey('gQ', '#1QR for current URL', function(){
+mapkey('gQ', '#1QR for clipboard', function(){
 	Normal.getContentFromClipboard(function(response) {
 		data = response.data ? response.data : window.location.href;
 		data = data.replace(/&/g, '%26');
@@ -60,7 +60,7 @@ mapkey('gQ', '#1QR for current URL', function(){
 		Normal.showPopup('<img src="http://qr.topscan.com/api.php?text=' + data + '"/>');
 	});
 });
-mapkey('gq', '#1QR for clipboard', function(){
+mapkey('gq', '#1QR for url', function(){
 	data = window.location.href;
 	data = data.replace(/&/g, '%26');
 	data = data.replace(/\n/g, '%0A');
