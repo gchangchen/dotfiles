@@ -1,4 +1,9 @@
 set nocompatible
+
+
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
+
 set number
 filetype plugin indent on
 set history=1000

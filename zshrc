@@ -34,6 +34,7 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 export LS_COLORS='rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:';
 
 # 补全与 zstyle {{{1
+# 不要报告 no matches 错误，直接使用原来的内容
 setopt no_nomatch
 # 用本用户的所有进程补全
 autoload -Uz compinit
