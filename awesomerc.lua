@@ -46,7 +46,7 @@ beautiful.init(awful.util.get_themes_dir() .. "default/theme.lua")
 terminal = "termite"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
-browser = "chromium --proxy-pac-url=https://raw.githubusercontent.com/gchangchen/pac/master/proxy.pac"
+browser = "chromium --proxy-pac-url=https://bitbucket.org/gchangchen/pac/raw/e84ba1c3628a062eeda6eba7d07f3c68f9fc26bc/proxy.pac"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -103,7 +103,9 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "open terminal", terminal },
+                                    { "reboot", "reboot" },
+                                    { "poweroff", "poweroff" }
                                   }
                         })
 
@@ -117,6 +119,9 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
 
+-- {{{ Wibar
+-- Create a textclock widget
+mytextclock = wibox.widget.textclock()
 -- {{{ volume handling
 volume_widget = wibox.widget.textbox()
 function update_volume(op)
@@ -140,9 +145,6 @@ function update_volume(op)
 end
 update_volume()
 -- }}}
--- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
