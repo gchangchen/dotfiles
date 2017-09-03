@@ -4,6 +4,7 @@
 # https://github.com/lilydjwg/dotzsh
 # https://github.com/MrElendig/dotfiles-alice
 # https://github.com/robbyrussell/oh-my-zsh
+# https://github.com/solnic/dotfiles/tree/master/home/zsh
 
 # 变量与选项 #{{{1
 # 历史记录{{{2
@@ -45,8 +46,20 @@ compinit
 zstyle :compinstall filename '${HOME}/.zshrc'
 zstyle '*' single-ignored show
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+#刷新自动补全
+#zstyle ':completion:*' rehash true
+
 # 进程名补全
+# Process completion shows all processes with colors
+#zstyle ':completion:*:*:*:*:processes' menu yes select
+#zstyle ':completion:*:*:*:*:processes' force-list always
+zstyle ':completion:*:*:*:*:processes' command 'ps -A -o pid,user,cmd'
+zstyle ':completion:*:*:*:*:processes' list-colors "=(#b) #([0-9]#)*=0=${color[green]}"
+#zstyle ':completion:*:*:kill:*:processes' command 'ps --forest -e -o pid,user,tty,cmd'
+zstyle ':completion:*:*:kill:*:processes' command 'ps --forest -u ${USER} -o pid,tty,cmd'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:processes-names' command  'ps c -u ${USER} -o command | uniq'
+
 # 警告显示为红色
 zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
 # 描述显示为淡色
