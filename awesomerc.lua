@@ -46,7 +46,8 @@ beautiful.init(awful.util.get_themes_dir() .. "default/theme.lua")
 terminal = "termite"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
-browser = "chromium --proxy-pac-url=https://bitbucket.org/gchangchen/pac/raw/e84ba1c3628a062eeda6eba7d07f3c68f9fc26bc/proxy.pac"
+browser = "chromium --proxy-pac-url=file:///home/ysl/pac/proxy.pac"
+--browser = "chromium"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.

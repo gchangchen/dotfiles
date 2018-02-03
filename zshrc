@@ -29,9 +29,11 @@ setopt rm_star_silent
 
 setopt autocd
 
+export TERM="xterm-256color" 
 export EDITOR="vim"
 export SYSTEMD_EDITOR="vim"
 
+export ANDROID_NDK_HOME=/usr/local/android-ndk-r14b
 export STAGING_DIR=/usr/local/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_uClibc-0.9.33.2
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$STAGING_DIR/bin
 #export PATH=$PATH:/usr/local/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_uClibc-0.9.33.2/bin:/usr/local/rsdk-1.5.5-5281-EB-2.6.30-0.9.30.3-110714/bin
@@ -136,6 +138,7 @@ bindkey -a "K" sudo-command-line
 # 别名 Alias  # {{{1
 # 常用 {{{2
 alias _="sudo"
+alias vi="vim"
 alias ls="ls --color"
 alias ll="ls --color -lh"
 alias grep="grep --color"
