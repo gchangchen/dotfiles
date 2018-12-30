@@ -32,10 +32,11 @@ setopt autocd
 export TERM="xterm-256color" 
 export EDITOR="vim"
 export SYSTEMD_EDITOR="vim"
+export LANG="en_US.utf8"
 
 export ANDROID_NDK_HOME=/usr/local/android-ndk-r14b
 export STAGING_DIR=/usr/local/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_uClibc-0.9.33.2
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$STAGING_DIR/bin
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$STAGING_DIR/bin:$HOME/go/bin
 #export PATH=$PATH:/usr/local/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_uClibc-0.9.33.2/bin:/usr/local/rsdk-1.5.5-5281-EB-2.6.30-0.9.30.3-110714/bin
 export LS_COLORS='rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:';
 
@@ -119,11 +120,6 @@ bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
 bindkey '^R' history-incremental-search-backward
 
-# 设置 ^V 为粘贴，需要安装xclip。{{{2
-vi-append-x-clipboard() { LBUFFER="$LBUFFER $(xclip -o -selection clipboard)"; }
-zle -N vi-append-x-clipboard
-bindkey '^V' vi-append-x-clipboard
-
 # 设置 vi 命令模式下 K 为使用 sudo 执行. {{{2
 sudo-command-line() {
     [[ -z $BUFFER ]] && zle up-history
@@ -142,6 +138,12 @@ alias vi="vim"
 alias ls="ls --color"
 alias ll="ls --color -lh"
 alias grep="grep --color"
+
+#alias for cnpm
+alias cnpm="npm --registry=https://registry.npm.taobao.org \
+  --cache=$HOME/.npm/.cache/cnpm \
+  --disturl=https://npm.taobao.org/dist \
+  --userconfig=$HOME/.cnpmrc"
 # 目录相关 {{{2
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -213,3 +215,4 @@ weather () { #天气预报 {{{2
 lookip (){ # ip归属地 {{{2
 	curl ip.cn/$1 2>/dev/null
 }
+
